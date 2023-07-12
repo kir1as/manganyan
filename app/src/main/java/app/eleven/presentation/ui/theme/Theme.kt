@@ -1,4 +1,4 @@
-package app.eleven.firstactivity.ui.theme
+package app.eleven.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

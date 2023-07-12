@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace 'app.eleven.firstactivity'
-    compileSdk 33
+    namespace 'app.eleven'
+    compileSdk 34
 
     defaultConfig {
-        applicationId "app.eleven.firstactivity"
+        applicationId "app.eleven"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

@@ -1,4 +1,4 @@
-package app.eleven.firstactivity.ui.theme
+package app.eleven.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

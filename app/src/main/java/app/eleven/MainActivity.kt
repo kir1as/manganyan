@@ -1,4 +1,4 @@
-package app.eleven.firstactivity
+package app.eleven
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 //import androidx.compose.ui.tooling.data.EmptyGroup.name
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.eleven.firstactivity.ui.theme.FirstActivityTheme
+import app.eleven.presentation.ui.theme.FirstActivityTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
