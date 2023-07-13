@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'app.eleven'
+    namespace 'app.manganyan'
     compileSdk 34
 
     defaultConfig {
-        applicationId "app.eleven"
+        applicationId "app.manganyan"
         minSdk 26
         targetSdk 34
         versionCode 1

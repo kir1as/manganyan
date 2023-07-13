@@ -1,4 +1,4 @@
-package app.eleven.presentation.ui.theme
+package app.manganyan.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

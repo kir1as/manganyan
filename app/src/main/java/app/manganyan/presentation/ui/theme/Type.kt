@@ -1,4 +1,4 @@
-package app.eleven.presentation.ui.theme
+package app.manganyan.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

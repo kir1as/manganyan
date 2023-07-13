@@ -1,4 +1,4 @@
-package app.eleven.firstactivity
+package app.manganyan.firstactivity
 
 import org.junit.Test
 
