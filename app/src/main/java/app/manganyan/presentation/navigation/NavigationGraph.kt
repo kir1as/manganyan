@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import app.manganyan.presentation.screens.home.HomeScreen
 import app.manganyan.presentation.screens.login_screen.SignInScreen
 import app.manganyan.presentation.screens.signup_screen.SignUpScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,11 @@ fun NavigationGraph(
 
         }
         composable(route = Screens.SignUpScreen.route) {
-            SignUpScreen()
+            SignUpScreen(navController = navController)
+        }
+
+        composable(route = Screens.HomeScreen.route) {
+            HomeScreen(navController = navController)
         }
     }
 

@@ -41,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 
 
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import app.manganyan.R
 import app.manganyan.presentation.ui.theme.FirstActivityTheme
 import kotlinx.coroutines.launch
@@ -49,7 +50,9 @@ import kotlinx.coroutines.launch
 @Composable
 
 fun SignUpScreen(
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
+            navController: NavHostController
+
 ) {
 
     val context = LocalContext.current
