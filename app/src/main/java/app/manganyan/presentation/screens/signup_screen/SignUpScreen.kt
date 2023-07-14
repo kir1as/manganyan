@@ -42,7 +42,9 @@ import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import app.manganyan.R
+import app.manganyan.presentation.navigation.Screens
 import app.manganyan.presentation.ui.theme.FirstActivityTheme
 import kotlinx.coroutines.launch
 
@@ -51,7 +53,7 @@ import kotlinx.coroutines.launch
 
 fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
-            navController: NavHostController
+    navController: NavHostController
 
 ) {
 
@@ -147,6 +149,7 @@ fun SignUpScreen(
                 if(state.value?.isSuccess?.isNotEmpty() == true){
                     val success = state.value?.isSuccess
                     Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                    navController.navigate(Screens.HomeScreen.route)
 
                 }
             }
@@ -159,6 +162,7 @@ fun SignUpScreen(
                     val error = state.value?.isError
                     Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
 
+
                 }
             }
         }
@@ -169,11 +173,5 @@ fun SignUpScreen(
 }
 
 
-
-@Preview
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreenPreview()
-}
 
 
