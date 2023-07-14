@@ -42,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.tooling.preview.Preview
 import app.manganyan.R
+import app.manganyan.presentation.ui.theme.FirstActivityTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,10 +166,11 @@ fun SignUpScreen(
 }
 
 
+
 @Preview
 @Composable
-fun SimpleComposablePreview() {
-    SignUpScreen()
+fun SignUpScreenPreview() {
+    SignUpScreenPreview()
 }
 
 
