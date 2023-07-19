@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import app.manganyan.MainScreen
 import app.manganyan.presentation.screens.home.HomeScreen
 import app.manganyan.presentation.screens.login_screen.SignInScreen
 import app.manganyan.presentation.screens.signup_screen.SignUpScreen
@@ -28,7 +29,10 @@ fun NavigationGraph(
         }
 
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen()
+        }
+        composable(route = Screens.MainScreen.route) {
+            MainScreen()
         }
     }
 

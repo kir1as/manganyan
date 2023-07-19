@@ -40,6 +40,7 @@ fun SignInScreen(
 ) {
 
     val googleSignInState = viewModel.googleState.value
+    val navController1 = rememberNavController()
 
 
 
@@ -199,7 +200,7 @@ fun SignInScreen(
                     if (state.value?.isSuccess?.isNotEmpty() == true) {
                         val success = state.value?.isSuccess
                         Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
-                        navController.navigate(Screens.HomeScreen.route)
+                        navController.navigate(Screens.MainScreen.route)
                     }
                 }
             }
