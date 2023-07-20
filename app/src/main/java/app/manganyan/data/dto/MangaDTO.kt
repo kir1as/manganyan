@@ -1,9 +1,10 @@
 package app.manganyan.data.dto
 
 
+import app.manganyan.domain.model.MangaData
 import com.squareup.moshi.Json
 
-data class MangDTO(
+data class MangaDTO(
     @Json(name = "attributes")
     val attributes: Attributes,
     @Json(name = "id")
@@ -13,3 +14,12 @@ data class MangDTO(
     @Json(name = "type")
     val type: String
 )
+
+fun MangaDTO.toMangaData(): MangaData {
+    return MangaData(
+        id = id,
+        title = attributes.title.en,
+        cover_id = relationships[2].id,
+        description = attributes.title.en
+    )
+}

@@ -1,7 +1,9 @@
 package app.manganyan.data.dto
 
 
+import app.manganyan.domain.model.MangaData
 import com.squareup.moshi.Json
+import org.w3c.dom.Attr
 
 data class Attributes(
     @Json(name = "altTitles")
@@ -45,3 +47,5 @@ data class Attributes(
     @Json(name = "year")
     val year: Int
 )
+
+
