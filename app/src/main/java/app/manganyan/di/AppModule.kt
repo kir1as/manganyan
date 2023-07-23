@@ -2,6 +2,8 @@ package app.manganyan.di
 
 import app.manganyan.data.repository.AuthRepository
 import app.manganyan.data.repository.AuthRepositoryImpl
+import app.manganyan.data.repository.CommentRepository
+import app.manganyan.data.repository.CommentRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -22,5 +24,11 @@ object AppModule {
     @Singleton
     fun provideRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepository{
         return AuthRepositoryImpl(firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCommentRepositoryImpl(): CommentRepository{
+        return CommentRepositoryImpl()
     }
 }
