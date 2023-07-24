@@ -16,10 +16,14 @@ data class MangaDTO(
 )
 
 fun MangaDTO.toMangaData(): MangaData {
+    val title = attributes.title?.en ?: "Unknown"
+    val coverId = relationships.getOrNull(2)?.id ?: "Unknown"
+    val description = attributes.description?.en ?: "Unknown"
+
     return MangaData(
         id = id,
-        title = attributes.title.en,
-        cover_id = relationships[2].id,
-        description = attributes.title.en
+        title = title,
+        cover_id = coverId,
+        description = description
     )
 }

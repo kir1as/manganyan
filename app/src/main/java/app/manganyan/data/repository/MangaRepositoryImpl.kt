@@ -9,6 +9,6 @@ class MangaRepositoryImpl @Inject constructor(
     private val api : MangaInstanceApi
 ): MangaRepository {
     override suspend fun getMangaList(): List<MangaDTO> {
-        return api.getMangaList()
+        return api.getMangaList().data ?: emptyList()
     }
 }
