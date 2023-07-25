@@ -19,7 +19,7 @@ fun MangaDTO.toMangaData(): MangaData {
     val title = attributes?.title?.en ?: "Unknown"
     val coverId = relationships.getOrNull(2)?.id ?: "Unknown"
     val description = attributes?.description?.en ?: "Unknown"
-    val image = relationships[2]?.attributes?.fileName
+    val image = relationships[relationships.size-1]?.attributes?.fileName
     val author = relationships[0]?.attributes?.name
 
     return MangaData(
