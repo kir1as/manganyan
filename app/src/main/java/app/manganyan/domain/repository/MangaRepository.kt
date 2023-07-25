@@ -4,5 +4,5 @@ import app.manganyan.data.dto.MangaDTO
 
 interface MangaRepository {
 
-    suspend fun getMangaList(): List<MangaDTO>
+    suspend fun getMangaList(): List<MangaDTO?>
 }
