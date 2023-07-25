@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.manganyan.domain.model.MangaData
+import app.manganyan.presentation.screens.home.MangaCard
 
 @Composable
 fun SearchScreen(
@@ -76,7 +77,7 @@ fun SearchBar(onChange: (String) -> Unit) {
 fun DisplayMangaList(mangaList: List<MangaData>) {
     LazyColumn {
         items(mangaList) { manga ->
-            manga.title?.let { Text(text = it) }
+            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image)
         }
     }
 }
