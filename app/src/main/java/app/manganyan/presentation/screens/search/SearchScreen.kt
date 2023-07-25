@@ -75,11 +75,7 @@ fun SearchBar(onChange: (String) -> Unit) {
 
 @Composable
 fun DisplayMangaList(mangaList: List<MangaData>) {
-    LazyColumn {
-        items(mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image)
-        }
-    }
+
 }
 
 @Preview
