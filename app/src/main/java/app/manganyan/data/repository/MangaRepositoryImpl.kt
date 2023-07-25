@@ -11,4 +11,9 @@ class MangaRepositoryImpl @Inject constructor(
     override suspend fun getMangaList(): List<MangaDTO?> {
         return api.getMangaList().data ?: emptyList()
     }
+
+    override suspend fun getMangaListByTitle(filter: String): List<MangaDTO?> {
+        return api.getMangaListByTitle(filter).data ?: emptyList()
+    }
+
 }
