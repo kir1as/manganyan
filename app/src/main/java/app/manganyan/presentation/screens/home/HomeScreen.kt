@@ -57,8 +57,16 @@ fun HomeScreen(
     var selectedItem by remember { mutableStateOf<String?>(null) } // Set initial value to null
 
     Column(modifier = Modifier.fillMaxSize()) {
-
         Column(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.weight(1f)) // Spacer to center "Bienvenue" vertically
+            Text(
+                text = "Bienvenue",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.primary,
+                maxLines = 1,
+                modifier = Modifier.padding(20.dp) // Padding of 20
+            )
             app.manganyan.presentation.screens.search.SearchBar(onChange = {
                 viewModel.onSearchChanged(it)
             })
@@ -112,12 +120,11 @@ fun HomeScreen(
                     }
                 }
             }
-
-
+            Spacer(modifier = Modifier.weight(1f)) // Spacer to center "Bienvenue" vertically
         }
     }
-
 }
+
 
     @Composable
     fun MangaCard(
