@@ -5,11 +5,11 @@ import com.squareup.moshi.Json
 
 data class AttributesX(
     @Json(name = "description")
-    val description: DescriptionX,
+    val description: Description?,
     @Json(name = "group")
-    val group: String,
+    val group: String?,
     @Json(name = "name")
-    val name: Name,
+    val name: Name?,
     @Json(name = "version")
-    val version: Int
+    val version: Int?
 )

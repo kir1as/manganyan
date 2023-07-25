@@ -33,6 +33,9 @@ class SearchViewModel @Inject constructor(
             Log.d("MangaDTO", "Title: ${manga.title}")
             Log.d("MangaDTO", "Cover ID: ${manga.cover_id}")
             Log.d("MangaDTO", "Description: ${manga.description}")
+            Log.d("MangaDTO", "cover: ${manga.image}")
+            Log.d("MangaDTO", "author: ${manga.author}")
+
         }
     }
 

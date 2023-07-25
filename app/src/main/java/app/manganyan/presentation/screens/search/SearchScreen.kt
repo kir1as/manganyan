@@ -33,7 +33,7 @@ fun SearchScreen(
 fun DisplayMangaList(mangaList: List<MangaData>) {
     LazyColumn {
         items(mangaList) { manga ->
-            Text(text = manga.title)
+            manga.title?.let { Text(text = it) }
         }
     }
 }

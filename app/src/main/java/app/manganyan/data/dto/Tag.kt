@@ -5,11 +5,11 @@ import com.squareup.moshi.Json
 
 data class Tag(
     @Json(name = "attributes")
-    val attributes: AttributesX,
+    val attributes: AttributesX?,
     @Json(name = "id")
-    val id: String,
+    val id: String?,
     @Json(name = "relationships")
-    val relationships: List<Any>,
+    val relationships: List<Any?>,
     @Json(name = "type")
-    val type: String
+    val type: String?
 )

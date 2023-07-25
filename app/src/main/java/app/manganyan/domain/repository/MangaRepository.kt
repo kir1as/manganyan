@@ -5,7 +5,5 @@ import app.manganyan.domain.model.Chapter
 
 interface MangaRepository {
 
-    suspend fun getMangaList(): List<MangaDTO>
-
-
+    suspend fun getMangaList(): List<MangaDTO?>
 }

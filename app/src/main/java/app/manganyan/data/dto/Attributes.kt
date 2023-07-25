@@ -1,9 +1,7 @@
 package app.manganyan.data.dto
 
 
-import app.manganyan.domain.model.MangaData
 import com.squareup.moshi.Json
-import org.w3c.dom.Attr
 
 data class Attributes(
     @Json(name = "altTitles")
@@ -21,31 +19,29 @@ data class Attributes(
     @Json(name = "isLocked")
     val isLocked: Boolean,
     @Json(name = "lastChapter")
-    val lastChapter: String,
+    val lastChapter: Any,
     @Json(name = "lastVolume")
-    val lastVolume: String,
+    val lastVolume: Any,
     @Json(name = "latestUploadedChapter")
     val latestUploadedChapter: String,
     @Json(name = "links")
-    val links: Links,
+    val links: Links?,
     @Json(name = "originalLanguage")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @Json(name = "publicationDemographic")
-    val publicationDemographic: String,
+    val publicationDemographic: Any?,
     @Json(name = "state")
-    val state: String,
+    val state: String?,
     @Json(name = "status")
-    val status: String,
+    val status: String?,
     @Json(name = "tags")
     val tags: List<Tag>,
     @Json(name = "title")
-    val title: Title,
+    val title: Title?,
     @Json(name = "updatedAt")
-    val updatedAt: String,
+    val updatedAt: String?,
     @Json(name = "version")
-    val version: Int,
+    val version: Int?,
     @Json(name = "year")
-    val year: Int
+    val year: Int?
 )
-
-

@@ -17,11 +17,11 @@ class MangaGetUseCase @Inject constructor(
         try {
             emit(Resource.Loading<List<MangaData>>())
             val mangaData = repository.getMangaList().map {
-                it.toMangaData()
+                it?.toMangaData()
             }
 
 
-            emit(Resource.Success<List<MangaData>>(mangaData))
+            emit(Resource.Success<List<MangaData>>(mangaData as List<MangaData>))
 
         }
         catch (e: HttpException){
