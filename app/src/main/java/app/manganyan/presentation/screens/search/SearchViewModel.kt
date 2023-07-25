@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
+import app.manganyan.domain.interactor.MangaGetFilterUseCase
 import app.manganyan.domain.interactor.MangaGetUseCase
 import app.manganyan.domain.model.MangaData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,14 +17,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val mangaUseCase: MangaGetUseCase
+    private val mangaUseCase: MangaGetUseCase,
+    private val mangaFilterUseCase: MangaGetFilterUseCase
 ) : ViewModel(){
 
     private val stateManga = MutableStateFlow(SearchState())
     val state = stateManga.asStateFlow()
 
     init {
-        Log.d("tag", "testing message")
         getMangaList()
     }
 
@@ -54,5 +55,26 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun getMangaFilterList(filter: String) {
+        mangaFilterUseCase(filter).onEach {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.let { it1 -> logMangaList(it1) }
+                    stateManga.value = SearchState(mangaList = it.data ?: emptyList())
+                }
+                is Resource.Loading -> {
+                    stateManga.value = SearchState(isLoading = true)
+                }
+                is Resource.Error -> {
+                    stateManga.value = SearchState(error = it.message ?: "An Unexpected Error")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun onSearchChanged(event: String) {
+        getMangaFilterList(event)
     }
 }
