@@ -9,5 +9,4 @@ data class MangaData(
     val description: String?,
     val image: String?,
     val author: String?
-
 )
