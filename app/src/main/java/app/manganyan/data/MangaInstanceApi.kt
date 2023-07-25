@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface MangaInstanceApi {
 
-    @GET("manga?includes[]=author&includes[]=artist&includes[]=cover_art")
+    @GET("manga?limit=100&includes[]=author&includes[]=artist&includes[]=cover_art")
     suspend fun getMangaList() : MangaResponse
 }
