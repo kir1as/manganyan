@@ -7,5 +7,4 @@ data class MangaData(
     val title : String,
     val cover_id: String,
     val description: String
-
 )

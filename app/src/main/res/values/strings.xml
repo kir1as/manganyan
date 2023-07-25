@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Manganyan</string>
+
+    <!-- My Profile Activity-->
+    <string name="my_profile_page_title">My Profile</string>
+    <string name="my_profile_my_publish_manga">My Published Manga</string>
+    <string name="my_profile_pseudo">Kirias</string>
+    <string name="my_profile_name">William</string>
+    <string name="my_profile_description">I\'m student from Ukraine. I have been a resident of Atom Space for 4 years now…</string>
+
+    <!-- Publish Chapter Activity -->
+    <string name="publish_chapter_page_title">Publish Chapter</string>
+    <string name="publish_chapter_chapter_title">Chapter Title</string>
+    <string name="publish_chapter_chapter_number">Chapter Number</string>
+    <string name="publish_chapter_button_publish">Publish</string>
+
+    <!-- Common -->
+    <string name="back_button_content_description">Back Button</string>
+    <string name="plus_button_content_description">Plus Button</string>
+    <string name="profile_image_content_description">Profile Image</string>
+
+
 </resources>
