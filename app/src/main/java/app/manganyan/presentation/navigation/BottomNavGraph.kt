@@ -28,7 +28,7 @@ fun BottomNavGraph(navController: NavHostController,
             ProfileScreen()
         }
         composable(route = BottomBarScreen.FavoriteScreen.route) {
-            MangaPageScreen()
+            MangaPageScreen(navController = navController)
         }
         composable(route = Screens.MainScreen.route) {
             MainScreen()

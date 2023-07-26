@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -38,7 +39,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MangaPageScreen(
-    viewModel: MangaPageViewModel = hiltViewModel()
+    viewModel: MangaPageViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     var appBarVisible by remember { mutableStateOf(true) }
@@ -64,7 +66,7 @@ fun MangaPageScreen(
         topBar = {
             MangaTopAppBar(
                 title = "Mon titre a changer",
-                onBackClick = { /*TODO*/ },
+                onBackClick = { navController.popBackStack() },
                 appBarVisible = appBarVisible
             )
         },
