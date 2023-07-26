@@ -73,7 +73,7 @@ fun MangaPageScreen(
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTapGestures { tapOffset ->
-                    appBarVisible = true
+                    appBarVisible = !appBarVisible
                 }
             }
 
@@ -168,6 +168,4 @@ fun MangaTopAppBar(
             },
         )
     }
-
-
 }
