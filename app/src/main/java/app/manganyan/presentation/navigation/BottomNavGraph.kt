@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import app.manganyan.MainScreen
 import app.manganyan.presentation.screens.favorites.FavoriteScreen
 import app.manganyan.presentation.screens.home.HomeScreen
+import app.manganyan.presentation.screens.manga_page.MangaPageScreen
 import app.manganyan.presentation.screens.profile.ProfileScreen
 import app.manganyan.presentation.screens.search.SearchScreen
 
@@ -27,7 +28,7 @@ fun BottomNavGraph(navController: NavHostController,
             ProfileScreen()
         }
         composable(route = BottomBarScreen.FavoriteScreen.route) {
-            FavoriteScreen()
+            MangaPageScreen()
         }
         composable(route = Screens.MainScreen.route) {
             MainScreen()

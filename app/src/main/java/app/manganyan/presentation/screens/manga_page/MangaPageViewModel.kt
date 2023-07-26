@@ -1,5 +1,6 @@
 package app.manganyan.presentation.screens.manga_page
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
@@ -23,8 +24,12 @@ class MangaPageViewModel @Inject constructor(
     private val stateManga = MutableStateFlow(UiState())
     val state = stateManga.asStateFlow()
 
-    internal fun getMangaPage() {
-        interactor.getMangaPageUC("").onEach { resource ->
+    init {
+        Log.d("tag", "testing message")
+        getMangaPage()
+    }
+    private fun getMangaPage() {
+        interactor.getMangaPageUC("1579eff1-2de7-428e-8ff4-7231f1b55c3b").onEach { resource ->
             when(resource){
                 is Resource.Error -> stateManga.update {
                     it.copy(

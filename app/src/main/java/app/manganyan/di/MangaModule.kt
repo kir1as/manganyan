@@ -2,7 +2,9 @@ package app.manganyan.di
 
 import app.manganyan.common.Constants
 import app.manganyan.data.MangaInstanceApi
+import app.manganyan.data.repository.MangaDataSource
 import app.manganyan.data.repository.MangaRepositoryImpl
+import app.manganyan.domain.repository.ChapterRepository
 import app.manganyan.domain.repository.MangaRepository
 import dagger.Module
 import dagger.Provides
@@ -31,5 +33,11 @@ object MangaModule {
     @Singleton
     fun provideMangaRepository(api: MangaInstanceApi):MangaRepository{
         return MangaRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMangaDataSource(mangaInstanceApi: MangaInstanceApi) : ChapterRepository{
+        return MangaDataSource(mangaInstanceApi)
     }
 }
