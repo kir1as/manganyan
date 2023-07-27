@@ -44,12 +44,10 @@ fun HomeScreen(
     navController: NavHostController,
 ) {
     val state by viewModel.state.collectAsState()
-    val searchQuery by viewModel.searchQuery.collectAsState()
+    //val searchQuery by viewModel.searchQuery.collectAsState()
 
     // Filter the manga list based on the search query
-    val filteredMangaList = remember(state.mangaList, searchQuery) {
-        viewModel.filterMangaList(state.mangaList, searchQuery)
-    }
+
 
     Column {
         Spacer(modifier = Modifier.weight(1f))
@@ -207,8 +205,6 @@ fun SearchBar(onChange: (String) -> Unit, viewModel: HomeViewModel) {
     TextField(
         value = text,
         onValueChange = {
-            val userUid = FirebaseAuth.getInstance().uid as String
-            viewModel.getFavoriteMangaList(userUid)
             text = it
             onChange(it)
         },
