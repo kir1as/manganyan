@@ -39,6 +39,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 
 import androidx.navigation.NavHostController
@@ -60,6 +61,7 @@ fun SignUpScreen(
     val state = viewModel.signUpState.collectAsState(initial = null)
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var pseudo by rememberSaveable { mutableStateOf("") }
 
     val cardHeight =
         with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp * 2 / 5 }
@@ -132,8 +134,32 @@ fun SignUpScreen(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent
                     ),
+                    visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
                         Text(text = "Password")
+                    }
+                )
+                Divider(
+                    color = Color.Black,
+                    thickness = 1.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 30.dp, end = 30.dp),
+                )
+                TextField(
+                    value = pseudo,
+                    onValueChange = {
+                        pseudo = it
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                        cursorColor = Color.Black,
+                        textColor = Color.Black,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
+                        Text(text = "Pseudo")
                     }
                 )
                 Divider(
@@ -146,7 +172,7 @@ fun SignUpScreen(
                 Button(
                     onClick = {
                         scope.launch {
-                            viewModel.registerUser(email, password)
+                            viewModel.registerUser(email, password, pseudo)
                         }
 
                     }, modifier = Modifier
@@ -183,7 +209,7 @@ fun SignUpScreen(
                         if (state.value?.isSuccess?.isNotEmpty() == true) {
                             val success = state.value?.isSuccess
                             Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
-                            navController.navigate(Screens.HomeScreen.route)
+                            navController.navigate(Screens.MainScreen.route)
                         }
                     }
                 }

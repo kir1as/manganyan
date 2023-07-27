@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -78,7 +79,6 @@ fun SignInScreen(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(cardHeight)
                 .align(Alignment.BottomCenter)
                 .height(cardHeight),
             shape = RoundedCornerShape(28.dp),
@@ -123,7 +123,9 @@ fun SignInScreen(
                         textColor = Color.Black,
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent
-                    ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
+                    ),
+                    visualTransformation = PasswordVisualTransformation(),
+                    shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
                         Text(text = "Password")
                     }
                 )

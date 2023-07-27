@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -28,10 +31,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import app.manganyan.R
+import app.manganyan.presentation.navigation.Screens
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -46,6 +52,7 @@ fun MangaPageScreen(
     var appBarVisible by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
+
 
     // LaunchedEffect pour détecter les tap et les interactions de défilement
     LaunchedEffect(appBarVisible) {
@@ -65,9 +72,10 @@ fun MangaPageScreen(
     Scaffold(
         topBar = {
             MangaTopAppBar(
-                title = "Mon titre a changer",
+                title = "Return",
                 onBackClick = { navController.popBackStack() },
-                appBarVisible = appBarVisible
+                appBarVisible = appBarVisible,
+                onCommentClick = { navController.navigate(Screens.CommentScreen.route + "/${viewModel.chapterId}") }
             )
         },
 
@@ -121,8 +129,12 @@ fun DisplayMangaImageList(
     imageUrls: List<String>,
     hash: String,
 ) {
-    LazyColumn() {
-        items(imageUrls) { imageUrl ->
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+    ) {
+        imageUrls.forEach { imageUrl ->
             val url = "https://uploads.mangadex.org/data-saver/$hash/$imageUrl"
             Log.d("test url ", "url: $url")
             ImageItem(url)
@@ -157,7 +169,8 @@ fun ImageItem(
 fun MangaTopAppBar(
     title: String,
     onBackClick: () -> Unit,
-    appBarVisible: Boolean
+    appBarVisible: Boolean,
+    onCommentClick: () -> Unit,
 ) {
     AnimatedVisibility(visible = appBarVisible) {
 
@@ -168,6 +181,14 @@ fun MangaTopAppBar(
                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
             },
+            actions = {
+                IconButton(onClick = { onCommentClick() }) {
+                    Icon(
+                        painterResource(id = R.drawable.baseline_add_comment_24),
+                        contentDescription = null
+                    )
+                }
+            }
         )
     }
 }

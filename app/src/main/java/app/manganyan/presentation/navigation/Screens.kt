@@ -8,5 +8,5 @@ sealed class Screens(val route: String) {
     object MainScreen : Screens(route = "Main_Screen")
     object MangaDetailScreen : Screens(route = "Manga_Detail")
     object MangaPageScreen : Screens(route = "Manga_Page")
-
+    object CommentScreen : Screens(route = "Comment_Screen")
 }
