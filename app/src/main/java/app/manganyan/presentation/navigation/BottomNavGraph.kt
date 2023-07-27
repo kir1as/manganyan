@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import app.manganyan.MainScreen
+import app.manganyan.presentation.screens.comment.CommentScreen
 import app.manganyan.presentation.screens.favorites.FavoriteScreen
 import app.manganyan.presentation.screens.home.HomeScreen
 import app.manganyan.presentation.screens.manga_page.MangaPageScreen

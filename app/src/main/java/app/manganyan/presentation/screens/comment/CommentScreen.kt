@@ -1,4 +1,4 @@
-package app.manganyan.presentation.comment
+package app.manganyan.presentation.screens.comment
 
 import android.widget.Toast
 
@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun CommentComposable(
+fun CommentScreen(
     viewModel: CommentViewModel = hiltViewModel()
 ) {
 

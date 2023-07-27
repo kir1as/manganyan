@@ -1,4 +1,4 @@
-package app.manganyan.presentation.comment
+package app.manganyan.presentation.screens.comment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

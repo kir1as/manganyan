@@ -1,4 +1,4 @@
-package app.manganyan.presentation.comment
+package app.manganyan.presentation.screens.comment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
