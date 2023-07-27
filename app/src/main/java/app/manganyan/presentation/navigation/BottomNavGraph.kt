@@ -16,7 +16,8 @@ import app.manganyan.presentation.screens.manga_detail.MangaDetailScreen
 import app.manganyan.presentation.screens.search.SearchScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController,
+fun BottomNavGraph(
+    navController: NavHostController,
 ){
     NavHost(
         navController = navController,
@@ -42,6 +43,12 @@ fun BottomNavGraph(navController: NavHostController,
             arguments = listOf(navArgument("chapterId") { type = NavType.StringType })
         ) {
             MangaPageScreen(navController = navController)
+        }
+        composable(
+            route = Screens.CommentScreen.route + "/{chapterId}",
+            arguments = listOf(navArgument("chapterId") { type = NavType.StringType })
+        ) {
+            CommentScreen(navController = navController)
         }
         composable(
             route = Screens.MangaDetailScreen.route + "/{mangaId}",

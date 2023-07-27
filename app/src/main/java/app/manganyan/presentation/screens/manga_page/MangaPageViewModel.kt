@@ -22,7 +22,7 @@ class MangaPageViewModel @Inject constructor(
 
     private val stateManga = MutableStateFlow(UiState())
     val state = stateManga.asStateFlow()
-    private val chapterId: String = checkNotNull(savedStateHandle["chapterId"])
+    val chapterId: String = checkNotNull(savedStateHandle["chapterId"])
 
     init {
         getMangaPage()

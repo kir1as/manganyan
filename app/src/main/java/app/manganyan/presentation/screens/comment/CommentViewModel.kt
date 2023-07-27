@@ -20,7 +20,7 @@ class CommentViewModel @Inject constructor(
 
     val _commentState = Channel<CommentState>()
     val commentState = _commentState.receiveAsFlow()
-
+    
     fun postComment(comment: Comment) = viewModelScope.launch {
         repository.postComment(comment).collect{
             result -> when(result){

@@ -7,11 +7,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
 @Composable
 fun CommentScreen(
-    viewModel: CommentViewModel = hiltViewModel()
+    viewModel: CommentViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
 
     val comments = remember { mutableStateListOf<String>() }
