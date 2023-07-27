@@ -64,7 +64,7 @@ fun ProfileScreen(
                 }
             } else {
 
-                val profilePicture = painterResource(id = R.drawable.img)
+                val profilePicture = painterResource(id = R.drawable.img_profile)
 
                 ProfilePicture(
                     painter = profilePicture,
