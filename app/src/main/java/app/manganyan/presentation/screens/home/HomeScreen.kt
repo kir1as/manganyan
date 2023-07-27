@@ -46,17 +46,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navController: NavHos
 
     val state by viewModel.state.collectAsState()
 
-    LazyColumn {
-        items(state.mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, mangaDesc = manga.description, navController)
-        }
-    }
-}
-
-
-
-@Composable
-fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaDesc: String?, navController: NavHostController) {
     Column {
         Spacer(modifier = Modifier.weight(1f)) // Spacer to center "Bienvenue" vertically
         Text(
@@ -70,6 +59,28 @@ fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaD
         app.manganyan.presentation.screens.search.SearchBar(onChange = {
             viewModel.onSearchChanged(it)
         })
+        LazyColumn {
+
+
+            items(state.mangaList) { manga ->
+                MangaCard(
+                    mangaTitle = manga.title,
+                    mangaId = manga.id,
+                    mangaCover = manga.image,
+                    mangaDesc = manga.description,
+                    navController
+                )
+            }
+        }
+    }
+}
+
+
+
+@Composable
+fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaDesc: String?, navController: NavHostController) {
+    Column {
+
         Card(
             modifier = Modifier
                 .padding(16.dp)
