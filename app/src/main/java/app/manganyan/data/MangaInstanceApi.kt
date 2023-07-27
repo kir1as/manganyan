@@ -1,5 +1,6 @@
 package app.manganyan.data
 
+import app.manganyan.data.dto.ChaptersResponse
 import app.manganyan.data.dto.MangaDetailResponse
 import app.manganyan.data.dto.MangaResponse
 import app.manganyan.data.dto.chapter.ChapterResponse
@@ -18,5 +19,8 @@ interface MangaInstanceApi {
 
     @GET("manga/{id}?limit=100&includes[]=author&includes[]=artist&includes[]=cover_art")
     suspend fun getMangaById(@Path("id") mangaId: String) : MangaDetailResponse
+
+    @GET("manga/{id}/feed?limit=500&includes[]=author&includes[]=artist&includes[]=cover_art&translatedLanguage[]=en&order[chapter]=asc")
+    suspend fun getChaptersId(@Path("id") mangaId: String) : ChaptersResponse
 
 }

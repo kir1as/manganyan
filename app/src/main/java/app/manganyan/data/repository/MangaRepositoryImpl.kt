@@ -1,6 +1,7 @@
 package app.manganyan.data.repository
 
 import app.manganyan.data.MangaInstanceApi
+import app.manganyan.data.dto.ChaptersDTO
 import app.manganyan.data.dto.MangaDTO
 import app.manganyan.domain.repository.MangaRepository
 import javax.inject.Inject
@@ -18,6 +19,10 @@ class MangaRepositoryImpl @Inject constructor(
 
     override suspend fun getMangaById(mangaId: String): MangaDTO? {
         return api.getMangaById(mangaId).data ?: null
+    }
+
+    override suspend fun getChaptersId(mangaId: String): List<ChaptersDTO?> {
+        return api.getChaptersId(mangaId).data ?: emptyList()
     }
 
 }

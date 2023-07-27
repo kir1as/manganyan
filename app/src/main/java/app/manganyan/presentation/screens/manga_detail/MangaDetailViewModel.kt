@@ -6,18 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
 import app.manganyan.domain.interactor.MangaGetByIdUseCase
+import app.manganyan.domain.interactor.MangaGetChaptersUseCase
 import app.manganyan.domain.model.MangaDetailData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MangaDetailViewModel @Inject constructor(
     private val mangaGetByIdUseCase: MangaGetByIdUseCase,
+    private val mangaGetChaptersUseCase: MangaGetChaptersUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
@@ -28,6 +31,7 @@ class MangaDetailViewModel @Inject constructor(
 
     init {
         getMangaById(mangaId)
+        getChaptersId(mangaId)
     }
 
     fun logMangaList(manga: MangaDetailData) {
@@ -43,9 +47,32 @@ class MangaDetailViewModel @Inject constructor(
     fun getMangaById(mangaId: String) {
         mangaGetByIdUseCase(mangaId = mangaId).onEach {
             when (it) {
-                is Resource.Success -> {
-                    it.data?.let { it1 -> logMangaList(it1) }
-                    _stateManga.value = MangaDetailState(manga = it.data ?: null)
+                is Resource.Success -> _stateManga.update { it1 ->
+                    it1.copy(
+                        isLoading = false,
+                        manga = it.data ?: null,
+                        error = ""
+                    )
+                }
+                is Resource.Loading -> {
+                    _stateManga.value = MangaDetailState(isLoading = true)
+                }
+                is Resource.Error -> {
+                    _stateManga.value = MangaDetailState(error = it.message ?: "An Unexpected Error")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getChaptersId(mangaId: String) {
+        mangaGetChaptersUseCase(mangaId = mangaId).onEach {
+            when (it) {
+                is Resource.Success -> _stateManga.update { it1 ->
+                    it1.copy(
+                        isLoading = false,
+                        chapters = it.data ?: emptyList(),
+                        error = ""
+                    )
                 }
                 is Resource.Loading -> {
                     _stateManga.value = MangaDetailState(isLoading = true)

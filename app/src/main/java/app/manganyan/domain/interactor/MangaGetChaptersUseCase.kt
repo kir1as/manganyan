@@ -14,11 +14,8 @@ class MangaGetChaptersUseCase @Inject constructor(
     operator fun invoke(mangaId: String) : Flow<Resource<List<String>>> = flow {
         try {
             emit(Resource.Loading())
-            //val chaptersId = repository.getChaptersId(mangaId = mangaId)
-
-
-
-
+            val chaptersId: List<String> = repository.getChaptersId(mangaId = mangaId).mapNotNull { mangaDTO -> mangaDTO?.id }
+            emit(Resource.Success(chaptersId))
         }
         catch (e: HttpException){
             emit(Resource.Error(message = e.localizedMessage?:"An Exception Occurred"))
