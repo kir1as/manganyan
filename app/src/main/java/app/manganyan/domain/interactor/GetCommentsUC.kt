@@ -2,8 +2,7 @@ package app.manganyan.domain.interactor
 
 import android.util.Log
 import app.manganyan.common.Resource
-import app.manganyan.data.repository.CommentRepository
-import app.manganyan.domain.model.Chapter
+import app.manganyan.domain.repository.CommentRepository
 import app.manganyan.domain.model.Comment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

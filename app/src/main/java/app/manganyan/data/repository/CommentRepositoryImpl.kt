@@ -1,8 +1,8 @@
 package app.manganyan.data.repository
 
-import android.util.Log
 import app.manganyan.common.Resource
 import app.manganyan.domain.model.Comment
+import app.manganyan.domain.repository.CommentRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

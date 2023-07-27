@@ -1,25 +1,18 @@
 package app.manganyan.presentation.screens.comment
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
-import app.manganyan.data.repository.AuthRepository
-import app.manganyan.data.repository.CommentRepository
+import app.manganyan.domain.repository.AuthRepository
+import app.manganyan.domain.repository.CommentRepository
 import app.manganyan.domain.interactor.CommentInteractor
-import app.manganyan.domain.interactor.GetCommentsUC
-import app.manganyan.domain.model.Chapter
 import app.manganyan.domain.model.Comment
-import app.manganyan.presentation.screens.manga_page.UiState
-import com.google.android.play.integrity.internal.c
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

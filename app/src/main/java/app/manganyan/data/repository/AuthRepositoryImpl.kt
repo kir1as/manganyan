@@ -2,6 +2,7 @@ package app.manganyan.data.repository
 
 import app.manganyan.common.Resource
 import app.manganyan.domain.model.UserApp
+import app.manganyan.domain.repository.AuthRepository
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
