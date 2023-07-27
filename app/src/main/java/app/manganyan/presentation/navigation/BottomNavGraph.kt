@@ -31,10 +31,16 @@ fun BottomNavGraph(navController: NavHostController,
             ProfileScreen()
         }
         composable(route = BottomBarScreen.FavoriteScreen.route) {
-            MangaPageScreen(navController = navController)
+            FavoriteScreen()
         }
         composable(route = Screens.MainScreen.route) {
             MainScreen()
+        }
+        composable(
+            route = Screens.MangaPageScreen.route + "/{chapterId}",
+            arguments = listOf(navArgument("chapterId") { type = NavType.StringType })
+        ) {
+            MangaPageScreen(navController = navController)
         }
         composable(
             route = Screens.MangaDetailScreen.route + "/{mangaId}",

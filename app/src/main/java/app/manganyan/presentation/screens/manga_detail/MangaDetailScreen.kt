@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import app.manganyan.R
+import app.manganyan.presentation.navigation.Screens
 import app.manganyan.presentation.screens.search.MangaDetailViewModel
 import coil.compose.rememberAsyncImagePainter
 
@@ -79,7 +80,7 @@ fun MangaDetailScreen(
                 author = state.manga?.author,
                 onBackClick = { navController.popBackStack() },
             )
-            MangaDetailContent(description = state.manga?.description, chapters = state.chapters)
+            MangaDetailContent(description = state.manga?.description, chapters = state.chapters, navController = navController)
         }
 
 
@@ -137,7 +138,7 @@ fun MangaDetailHeader(
 }
 
 @Composable
-fun MangaDetailContent(description: String?, chapters: List<String>) {
+fun MangaDetailContent(description: String?, chapters: List<String>, navController: NavHostController) {
 
     var selectedTab by remember { mutableStateOf(0) }
 
@@ -166,7 +167,7 @@ fun MangaDetailContent(description: String?, chapters: List<String>) {
         if (selectedTab == 0) {
             MangaDetailDescription(description = description)
         } else {
-            MangaDetailChapters(chaptersId = chapters)
+            MangaDetailChapters(chaptersId = chapters, navController = navController)
         }
     }
 
@@ -212,27 +213,27 @@ fun MangaDetailDescription(description: String?) {
 }
 
 @Composable
-fun MangaDetailChapters(chaptersId: List<String>) {
+fun MangaDetailChapters(chaptersId: List<String>, navController: NavHostController) {
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
         itemsIndexed(chaptersId) { index, id ->
-            ChapterCard(index = index, chapterNumber = id)
+            ChapterCard(index = index, chapterNumber = id, navController = navController)
         }
     }
 
 }
 
 @Composable
-fun ChapterCard(index: Int, chapterNumber: String) {
+fun ChapterCard(index: Int, chapterNumber: String, navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable {
-                // navController.navigate("chapter_details/$chapterNumber")
+                navController.navigate(Screens.MangaPageScreen.route + "/${chapterNumber}")
             },
     ) {
         Text(
