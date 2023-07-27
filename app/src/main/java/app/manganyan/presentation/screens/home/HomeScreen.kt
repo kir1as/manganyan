@@ -54,10 +54,10 @@ fun HomeScreen(
     Column {
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "Bienvenue",
+            text = "Manganyan",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.primary,
+            color = Color.Black,
             maxLines = 1,
             modifier = Modifier.padding(20.dp)
         )
@@ -142,14 +142,14 @@ fun MangaCard(
                     text = mangaTitle ?: "Unknown Title",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.primary
+                    color = Color.Black,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 if (mangaDesc != null) {
                     Text(
                         text = mangaDesc,
                         fontSize = 14.sp,
-                        color = MaterialTheme.colors.secondary,
+                        color = Color.Black,
                         maxLines = 2
                     )
                 }
