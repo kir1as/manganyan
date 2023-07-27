@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175684810982",
+    "project_id": "manganyan-9050b",
+    "storage_bucket": "manganyan-9050b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175684810982:android:124ee17717671d57b12327",
+        "android_client_info": {
+          "package_name": "app.manganyan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175684810982-1cftskndso7bgmj9tdndrlmgdh1at14a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvuakX6NXIbBH1TCGOK35qO0FmQPwEHxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175684810982-1cftskndso7bgmj9tdndrlmgdh1at14a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
