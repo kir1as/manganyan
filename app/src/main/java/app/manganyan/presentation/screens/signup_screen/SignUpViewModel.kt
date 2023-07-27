@@ -3,7 +3,7 @@ package app.manganyan.presentation.screens.signup_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
-import app.manganyan.data.repository.AuthRepository
+import app.manganyan.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

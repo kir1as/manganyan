@@ -1,4 +1,4 @@
-package app.manganyan.data.repository
+package app.manganyan.domain.repository
 
 import app.manganyan.common.Resource
 import app.manganyan.domain.model.Comment
