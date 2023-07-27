@@ -1,12 +1,16 @@
 package app.manganyan.presentation.screens.search
 
+import android.provider.CalendarContract.Events
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
 import app.manganyan.domain.interactor.MangaGetFilterUseCase
 import app.manganyan.domain.interactor.MangaGetUseCase
 import app.manganyan.domain.model.MangaData
+import app.manganyan.presentation.screens.search.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,10 +25,11 @@ class HomeViewModel @Inject constructor(
     private val mangaFilterUseCase: MangaGetFilterUseCase
 ) : ViewModel(){
 
-    private val stateManga = MutableStateFlow(SearchState())
+    private val stateManga = MutableStateFlow(HomeState())
     val state = stateManga.asStateFlow()
 
     init {
+        Log.d("tag", "testing message")
         getMangaList()
     }
 
@@ -40,12 +45,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getMangaList() {
+    private fun getMangaList() {
         mangaUseCase().onEach {
             when (it) {
                 is Resource.Success -> {
                     it.data?.let { it1 -> logMangaList(it1) }
-                    stateManga.value = SearchState(mangaList = it.data ?: emptyList())
+                    stateManga.value = HomeState(mangaList = it.data ?: emptyList())
                 }
                 is Resource.Loading -> {
                     stateManga.value = SearchState(isLoading = true)

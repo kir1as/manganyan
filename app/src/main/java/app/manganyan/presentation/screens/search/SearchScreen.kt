@@ -25,12 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import app.manganyan.domain.model.MangaData
 import app.manganyan.presentation.screens.home.MangaCard
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -44,7 +46,7 @@ fun SearchScreen(
         } else if (state.error.isNotEmpty()) {
             Text("Error: ${state.error}", modifier = Modifier.padding(8.dp))
         } else {
-            DisplayMangaList(state.mangaList)
+            DisplayMangaList(state.mangaList, navController)
         }
 
 
@@ -74,12 +76,10 @@ fun SearchBar(onChange: (String) -> Unit) {
 }
 
 @Composable
-fun DisplayMangaList(mangaList: List<MangaData>) {
-
-}
-
-@Preview
-@Composable
-fun SearchScreenPreview() {
-    SearchScreen()
+fun DisplayMangaList(mangaList: List<MangaData>, navController: NavHostController) {
+    LazyColumn {
+        items(mangaList) { manga ->
+            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, navController)
+        }
+    }
 }
