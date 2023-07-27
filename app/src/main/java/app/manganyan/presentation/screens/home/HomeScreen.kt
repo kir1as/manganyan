@@ -107,7 +107,7 @@ fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaD
                     )
                 } else {
                     Image(
-                        painter = painterResource(R.drawable.qrcode), // Replace with your desired placeholder image
+                        painter = rememberAsyncImagePainter("https://mangadex.org/covers/227e3f72-863f-46f9-bafe-c43104ca29ee/2fbddeeb-5743-4a36-8341-847b9c597ce2.jpg.512.jpg"), // Replace with your desired placeholder image
                         contentDescription = null,
                         modifier = Modifier
                             .height(150.dp)
