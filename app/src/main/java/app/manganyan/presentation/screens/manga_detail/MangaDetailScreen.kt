@@ -3,6 +3,7 @@ package app.manganyan.presentation.screens.manga_detail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,8 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -54,9 +56,21 @@ fun MangaDetailScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         if (state.isLoading) {
-            CircularProgressIndicator()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                CircularProgressIndicator()
+            }
         } else if (state.error.isNotEmpty()) {
-            Text("Error: ${state.error}", modifier = Modifier.padding(8.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                Text("Error: ${state.error}", modifier = Modifier.padding(8.dp))
+            }
         } else {
             MangaDetailHeader(
                 mangaTitle = state.manga?.title,
@@ -65,7 +79,7 @@ fun MangaDetailScreen(
                 author = state.manga?.author,
                 onBackClick = { navController.popBackStack() },
             )
-            MangaDetailContent(description = state.manga?.description)
+            MangaDetailContent(description = state.manga?.description, chapters = state.chapters)
         }
 
 
@@ -123,7 +137,7 @@ fun MangaDetailHeader(
 }
 
 @Composable
-fun MangaDetailContent(description: String?) {
+fun MangaDetailContent(description: String?, chapters: List<String>) {
 
     var selectedTab by remember { mutableStateOf(0) }
 
@@ -152,7 +166,7 @@ fun MangaDetailContent(description: String?) {
         if (selectedTab == 0) {
             MangaDetailDescription(description = description)
         } else {
-            MangaDetailChapters()
+            MangaDetailChapters(chaptersId = chapters)
         }
     }
 
@@ -198,23 +212,21 @@ fun MangaDetailDescription(description: String?) {
 }
 
 @Composable
-fun MangaDetailChapters() {
+fun MangaDetailChapters(chaptersId: List<String>) {
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
-        val chapterList = listOf("Chapter 1", "Chapter 2", "Chapter 3", "Chapter 4")
-
-        items(chapterList) { chapter ->
-            ChapterCard(chapterNumber = chapter)
+        itemsIndexed(chaptersId) { index, id ->
+            ChapterCard(index = index, chapterNumber = id)
         }
     }
 
 }
 
 @Composable
-fun ChapterCard(chapterNumber: String) {
+fun ChapterCard(index: Int, chapterNumber: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -224,7 +236,7 @@ fun ChapterCard(chapterNumber: String) {
             },
     ) {
         Text(
-            text = chapterNumber,
+            text = "chapter $index",
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
         )
