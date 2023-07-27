@@ -1,6 +1,7 @@
 package app.manganyan.presentation.screens.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
@@ -27,15 +28,20 @@ import androidx.compose.runtime.collectAsState
 import app.manganyan.presentation.screens.search.SearchViewModel
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.manganyan.domain.model.MangaData
+import app.manganyan.presentation.navigation.Screens
 
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navController: NavHostController) {
 
     val state by viewModel.state.collectAsState()
 
@@ -43,7 +49,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
     LazyColumn {
         items(state.mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image)
+            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, navController)
         }
     }
 }
@@ -51,11 +57,16 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
 
 @Composable
-fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?) {
+fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, navController: NavHostController) {
     Card(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
+            .clickable {
+                mangaId?.let {
+                    navController.navigate(Screens.MangaDetailScreen.route + "/${mangaId}")
+                }
+            }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

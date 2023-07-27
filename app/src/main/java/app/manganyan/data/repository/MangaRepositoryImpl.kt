@@ -16,4 +16,8 @@ class MangaRepositoryImpl @Inject constructor(
         return api.getMangaListByTitle(filter).data ?: emptyList()
     }
 
+    override suspend fun getMangaById(mangaId: String): MangaDTO? {
+        return api.getMangaById(mangaId).data ?: null
+    }
+
 }
