@@ -46,11 +46,9 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navController: NavHos
 
     val state by viewModel.state.collectAsState()
 
-
-
     LazyColumn {
         items(state.mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, navController)
+            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, mangaDesc = manga.description, navController)
         }
     }
 }
@@ -58,7 +56,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navController: NavHos
 
 
 @Composable
-fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, navController: NavHostController) {
+fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaDesc: String?, navController: NavHostController) {
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -69,8 +67,9 @@ fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, navCon
                 }
             }
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             if (mangaCover != null && mangaId != null) {
                 val imageUrl = "https://mangadex.org/covers/$mangaId/$mangaCover"
@@ -78,25 +77,47 @@ fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, navCon
                     painter = rememberAsyncImagePainter(imageUrl),
                     contentDescription = null,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
+                        .height(150.dp)
+                        .width(100.dp)
+                        .aspectRatio(2 / 3f) // To maintain the aspect ratio of the image
                 )
             } else {
                 Image(
                     painter = painterResource(R.drawable.qrcode), // Replace with your desired placeholder image
                     contentDescription = null,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
+                        .height(150.dp)
+                        .width(100.dp)
+                        .aspectRatio(2 / 3f) // To maintain the aspect ratio of the image
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = mangaTitle ?: "Unknown Title",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colors.primary
-            )
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .weight(1f) // To make the title and description take up the remaining space
+            ) {
+                Text(
+                    text = mangaTitle ?: "Unknown Title",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                if (mangaDesc != null) {
+                    Text(
+                        text = mangaDesc, // Replace this with the actual description text
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colors.secondary,
+                        maxLines = 2 // Limit the description to two lines
+                    )
+                }
+            }
         }
     }
 }
+
+
+
+
+

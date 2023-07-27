@@ -79,7 +79,7 @@ fun SearchBar(onChange: (String) -> Unit) {
 fun DisplayMangaList(mangaList: List<MangaData>, navController: NavHostController) {
     LazyColumn {
         items(mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, navController)
+            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, mangaDesc = manga.description, navController)
         }
     }
 }
