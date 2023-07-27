@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface CommentRepository {
     suspend fun getComment(): List<Comment>
     fun postComment(comment: Comment): Flow<Resource<Unit>>
-    fun deleteComment(idComment: String): Flow<Resource<Unit>>
 
 }

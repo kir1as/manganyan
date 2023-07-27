@@ -4,11 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
 import app.manganyan.data.repository.AuthRepository
-import app.manganyan.presentation.screens.login_screen.SignInState
-import app.manganyan.presentation.screens.signup_screen.SignUpState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,9 +19,9 @@ class SignUpViewModel @Inject constructor(
     val signUpState = _signUpState.receiveAsFlow()
 
 
-    fun registerUser(email: String, password: String) = viewModelScope.launch {
+    fun registerUser(email: String, password: String, pseudo: String) = viewModelScope.launch {
 
-        repository.registerUser(email, password).collect{
+        repository.registerUser(email, password, pseudo).collect{
                 result -> when(result){
             is Resource.Success -> {
                 _signUpState.send(SignUpState(isSuccess = "SignIn Sucess"))

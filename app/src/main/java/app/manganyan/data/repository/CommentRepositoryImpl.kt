@@ -53,8 +53,4 @@ class CommentRepositoryImpl @Inject constructor(): CommentRepository {
             }
         }
     }
-
-    override fun deleteComment(idComment: String): Flow<Resource<Unit>> {
-        TODO("Not yet implemented")
-    }
 }
