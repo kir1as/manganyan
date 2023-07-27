@@ -22,8 +22,9 @@ import app.manganyan.domain.model.Comment
 import app.manganyan.presentation.ui.theme.BlueYellowGradient
 
 @Composable
-fun CommentForm(onPublishComment: (Comment) -> Unit) {
+fun CommentForm(onPublishComment: (Comment) -> Unit, chapterId: String, userId: String) {
     var commentText by remember { mutableStateOf("") }
+
 
     Row(
         modifier = Modifier
@@ -58,7 +59,7 @@ fun CommentForm(onPublishComment: (Comment) -> Unit) {
                 .background(brush = BlueYellowGradient)
                 .clickable(onClick = {
                     val newComment =
-                        Comment(userId = "userId", chapterId = "chapterId", content = commentText)
+                        Comment(userId = userId, chapterId = chapterId, content = commentText)
                     onPublishComment(newComment)
                 }),
             contentAlignment = Alignment.Center

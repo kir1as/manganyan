@@ -1,5 +1,6 @@
 package app.manganyan.presentation.screens.comment
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,24 +25,28 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import app.manganyan.R
+import app.manganyan.domain.model.Comment
 
 
 @Composable
-fun CommentList(comments: List<String>) {
+fun CommentList(comments: List<String>, commentState: CommentState) {
+
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(comments) { comment ->
+
+        items(commentState.comments) { comment ->
             CommentCard(comment)
         }
     }
+
 }
 
 @Composable
-fun CommentCard(comment: String) {
+fun CommentCard(comment: Comment) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
@@ -59,12 +64,12 @@ fun CommentCard(comment: String) {
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Utilisateur",
+                    text = "Anonyme",
                     style = MaterialTheme.typography.h6
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = comment,
+                    text = comment.content,
                     style = MaterialTheme.typography.body1
                 )
             }

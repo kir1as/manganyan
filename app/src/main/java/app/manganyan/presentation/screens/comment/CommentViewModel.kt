@@ -1,13 +1,26 @@
 package app.manganyan.presentation.screens.comment
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.manganyan.common.Resource
+import app.manganyan.data.repository.AuthRepository
 import app.manganyan.data.repository.CommentRepository
+import app.manganyan.domain.interactor.CommentInteractor
+import app.manganyan.domain.interactor.GetCommentsUC
+import app.manganyan.domain.model.Chapter
 import app.manganyan.domain.model.Comment
+import app.manganyan.presentation.screens.manga_page.UiState
+import com.google.android.play.integrity.internal.c
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,33 +28,91 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentViewModel @Inject constructor(
-    private val repository: CommentRepository
+    private val repository: CommentRepository,
+    private val authRepository: AuthRepository,
+    private val interactor: CommentInteractor,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    val _commentState = Channel<CommentState>()
-    val commentState = _commentState.receiveAsFlow()
-    
+    private val _commentState = MutableStateFlow(CommentState())
+    val state = _commentState.asStateFlow()
+
+    val chapterId: String = checkNotNull(savedStateHandle["chapterId"])
+    lateinit var idUser : String
+    init {
+        viewModelScope.launch {
+            idUser = getCurrentUser()
+        }
+        getComment()
+    }
+
+
     fun postComment(comment: Comment) = viewModelScope.launch {
         repository.postComment(comment).collect{
             result -> when(result){
-                is Resource.Success -> {
-                    _commentState.send(CommentState(isSuccess = "Commentaire Ajouté"))
 
+                is Resource.Success -> _commentState.update{
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = "Commentaire Ajouté",
+                        isError = "",
+                    )
                 }
-                is Resource.Loading -> {
-                    _commentState.send(CommentState(isLoading = true))
-
+                is Resource.Loading -> _commentState.update {
+                    it.copy(
+                        isLoading = true,
+                        isSuccess = "",
+                        comments = emptyList(),
+                        isError = ""
+                    )
                 }
-                is Resource.Error -> {
-                    _commentState.send(CommentState(isError = result.message))
-
+                is Resource.Error -> _commentState.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = "",
+                        comments = emptyList(),
+                        isError = result.message ?: "An unexpected error occurred"
+                    )
                 }
             }
         }
+        getComment()
     }
 
     fun getComment() = viewModelScope.launch {
-        val comments = repository.getComment()
+        interactor.getCommentsUC().onEach { resource ->
+            when(resource){
+                is Resource.Error ->  _commentState.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = resource.message ?: "An unexpected error occurred",
+                        comments = emptyList()
+                    )
+                }
+                is Resource.Loading -> _commentState.update {
+                    it.copy(
+                        isLoading = true,
+                        isError = "",
+                        comments = emptyList()
+                    )
+                }
+                is Resource.Success -> _commentState.update {
+                    var comments : List<Comment> = emptyList()
+                    if(resource.data != null){
+                         comments = resource.data.filter{ comment -> chapterId == comment.chapterId }
+                    }
+                    it.copy(
+                        isLoading = false,
+                        isError = "",
+                        comments = comments
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getCurrentUser() : String {
+        return authRepository.getCurrentUserId()
     }
 
 

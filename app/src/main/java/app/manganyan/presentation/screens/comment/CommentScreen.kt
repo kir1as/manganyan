@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
@@ -19,7 +20,7 @@ fun CommentScreen(
     val comments = remember { mutableStateListOf<String>() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val state = viewModel.commentState.collectAsState(initial = null)
+    val state = viewModel.state.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         CommentForm(onPublishComment = { comment ->
@@ -28,21 +29,22 @@ fun CommentScreen(
             }
 
             comments.add(comment.content)
-        })
-        CommentList(comments)
-        LaunchedEffect(key1 = state.value?.isSuccess) {
+        }, chapterId = viewModel.chapterId, userId = viewModel.idUser)
+
+        CommentList(comments, state.value )
+        LaunchedEffect(key1 = state.value.isSuccess) {
             scope.launch {
-                if (state.value?.isSuccess?.isNotEmpty() == true) {
-                    val success = state.value?.isSuccess
+                if (state.value.isSuccess?.isNotEmpty() == true) {
+                    val success = state.value.isSuccess
                     Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
                 }
             }
         }
 
-        LaunchedEffect(key1 = state.value?.isError) {
+        LaunchedEffect(key1 = state.value.isError) {
             scope.launch {
-                if (state.value?.isError?.isNotEmpty() == true) {
-                    val error = state.value?.isError
+                if (state.value.isError?.isNotEmpty() == true) {
+                    val error = state.value.isError
                     Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
                 }
             }

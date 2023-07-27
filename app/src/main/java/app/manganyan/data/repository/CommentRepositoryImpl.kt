@@ -1,5 +1,6 @@
 package app.manganyan.data.repository
 
+import android.util.Log
 import app.manganyan.common.Resource
 import app.manganyan.domain.model.Comment
 import com.google.firebase.firestore.FirebaseFirestore
@@ -8,20 +9,22 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class CommentRepositoryImpl @Inject constructor(): CommentRepository {
+class CommentRepositoryImpl @Inject constructor() : CommentRepository {
     private val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override suspend fun getComment(): List<Comment> {
-
         try {
             val querySnapshot = firebaseFirestore.collection("comments").get().await()
             val commentsList = mutableListOf<Comment>()
-
-            for (document in querySnapshot.documents) {
-                val comment = document.toObject(Comment::class.java)
-                comment?.let {
-                    commentsList.add(it)
-                }
+            querySnapshot.documents.map { document ->
+                commentsList.add(
+                    Comment(
+                        id = null,
+                        userId = document.getString("userId") ?: "",
+                        chapterId = document.getString("chapterId") ?: "",
+                        content = document.getString("content") ?: "",
+                    )
+                )
             }
 
             return commentsList
