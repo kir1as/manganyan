@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import app.manganyan.domain.model.MangaData
 import app.manganyan.presentation.screens.home.MangaCard
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun SearchScreen(
@@ -46,7 +47,6 @@ fun SearchScreen(
         } else if (state.error.isNotEmpty()) {
             Text("Error: ${state.error}", modifier = Modifier.padding(8.dp))
         } else {
-            DisplayMangaList(state.mangaList, navController)
         }
 
 
@@ -73,13 +73,4 @@ fun SearchBar(onChange: (String) -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             ),
     )
-}
-
-@Composable
-fun DisplayMangaList(mangaList: List<MangaData>, navController: NavHostController) {
-    LazyColumn {
-        items(mangaList) { manga ->
-            MangaCard(mangaTitle = manga.title, mangaId = manga.id, mangaCover = manga.image, mangaDesc = manga.description, navController)
-        }
-    }
 }

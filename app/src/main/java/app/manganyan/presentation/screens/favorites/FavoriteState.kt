@@ -1,10 +1,9 @@
-package app.manganyan.presentation.screens.home
+package app.manganyan.presentation.screens.favorites
 
 import app.manganyan.domain.model.MangaData
 
-data class HomeState (
+data class FavoriteState (
     val isLoading: Boolean = false,
-    val mangaList: List<MangaData> = emptyList(),
     val favoriteMangaIds: List<String> = emptyList(),
     val error: String = ""
 ) {

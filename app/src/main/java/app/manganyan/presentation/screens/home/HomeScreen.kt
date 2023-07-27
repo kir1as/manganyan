@@ -1,141 +1,196 @@
 package app.manganyan.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import app.manganyan.R
-import androidx.compose.runtime.collectAsState
-
-import app.manganyan.presentation.screens.search.SearchViewModel
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import androidx.hilt.navigation.compose.hiltViewModel
 import app.manganyan.domain.model.MangaData
 import app.manganyan.presentation.navigation.Screens
-import app.manganyan.presentation.screens.search.HomeViewModel
-
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navController: NavHostController) {
-
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController,
+) {
     val state by viewModel.state.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+
+    // Filter the manga list based on the search query
+    val filteredMangaList = remember(state.mangaList, searchQuery) {
+        viewModel.filterMangaList(state.mangaList, searchQuery)
+    }
 
     Column {
-        Spacer(modifier = Modifier.weight(1f)) // Spacer to center "Bienvenue" vertically
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Bienvenue",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.primary,
             maxLines = 1,
-            modifier = Modifier.padding(20.dp) // Padding of 20
+            modifier = Modifier.padding(20.dp)
         )
-        app.manganyan.presentation.screens.search.SearchBar(onChange = {
-            viewModel.onSearchChanged(it)
-        })
+        SearchBar(onChange = {
+            viewModel.onSearchChangedList(it)
+            //viewModel.onSearchChanged(it)
+
+        }, viewModel)
         LazyColumn {
-
-
             items(state.mangaList) { manga ->
+                val isFavorite = state.favoriteMangaIds.contains(manga.id)
+                Log.d("Hello", isFavorite.toString())
                 MangaCard(
                     mangaTitle = manga.title,
                     mangaId = manga.id,
                     mangaCover = manga.image,
                     mangaDesc = manga.description,
-                    navController
+                    navController = navController,
+                    isFavorite = isFavorite,
+                    viewModel = viewModel
                 )
             }
         }
     }
 }
 
-
-
 @Composable
-fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaDesc: String?, navController: NavHostController) {
-    Column {
+fun MangaCard(
+    mangaTitle: String?,
+    mangaId: String?,
+    mangaCover: String?,
+    mangaDesc: String?,
+    navController: NavHostController,
+    isFavorite: Boolean,
+    viewModel: HomeViewModel
 
-        Card(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .clickable {
-                    mangaId?.let {
-                        navController.navigate(Screens.MangaDetailScreen.route + "/${mangaId}")
-                    }
+) {
+
+    Log.d("MangaCard", "Manga ID: $mangaId, isFavorite: $isFavorite")
+
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .clickable {
+                mangaId?.let {
+                    navController.navigate(Screens.MangaDetailScreen.route + "/${mangaId}")
                 }
+            }
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+            if (mangaCover != null && mangaId != null) {
+                val imageUrl = "https://mangadex.org/covers/$mangaId/$mangaCover"
+                Image(
+                    painter = rememberAsyncImagePainter(imageUrl),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(150.dp)
+                        .width(100.dp)
+                        .aspectRatio(2 / 3f)
+                )
+            } else {
+                Image(
+                    painter = rememberAsyncImagePainter("https://mangadex.org/covers/227e3f72-863f-46f9-bafe-c43104ca29ee/2fbddeeb-5743-4a36-8341-847b9c597ce2.jpg.512.jpg"),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(150.dp)
+                        .width(100.dp)
+                        .aspectRatio(2 / 3f)
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .weight(1f)
             ) {
-                if (mangaCover != null && mangaId != null) {
-                    val imageUrl = "https://mangadex.org/covers/$mangaId/$mangaCover"
-                    Image(
-                        painter = rememberAsyncImagePainter(imageUrl),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(150.dp)
-                            .width(100.dp)
-                            .aspectRatio(2 / 3f) // To maintain the aspect ratio of the image
-                    )
-                } else {
-                    Image(
-                        painter = rememberAsyncImagePainter("https://mangadex.org/covers/227e3f72-863f-46f9-bafe-c43104ca29ee/2fbddeeb-5743-4a36-8341-847b9c597ce2.jpg.512.jpg"), // Replace with your desired placeholder image
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(150.dp)
-                            .width(100.dp)
-                            .aspectRatio(2 / 3f) // To maintain the aspect ratio of the image
+                Text(
+                    text = mangaTitle ?: "Unknown Title",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                if (mangaDesc != null) {
+                    Text(
+                        text = mangaDesc,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colors.secondary,
+                        maxLines = 2
                     )
                 }
+            }
 
-                Column(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .weight(1f) // To make the title and description take up the remaining space
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(8.dp)
+            ) {
+                IconButton(
+                    onClick = {
+                        mangaId?.let { id ->
+                            val userUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                            if (isFavorite) {
+                                viewModel.removeMangaFromFavorites(
+                                    FirebaseFirestore.getInstance(),
+                                    userUid,
+                                    id
+                                )
+                            } else {
+                                viewModel.addMangaToFavorites(
+                                    FirebaseFirestore.getInstance(),
+                                    userUid,
+                                    id
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = mangaTitle ?: "Unknown Title",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.primary
+                    Image(
+                        imageVector = if (isFavorite) {
+                            ImageVector.vectorResource(id = R.drawable.fav_yes) // Red heart icon
+                        } else {
+                            ImageVector.vectorResource(id = R.drawable.fav_no) // Gray heart icon
+                        },
+                        contentDescription = "Favorite Icon",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.fillMaxSize()
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (mangaDesc != null) {
-                        Text(
-                            text = mangaDesc, // Replace this with the actual description text
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.secondary,
-                            maxLines = 2 // Limit the description to two lines
-                        )
-                    }
                 }
             }
         }
@@ -145,4 +200,26 @@ fun MangaCard(mangaTitle: String?, mangaId: String?, mangaCover: String?, mangaD
 
 
 
+@Composable
+fun SearchBar(onChange: (String) -> Unit, viewModel: HomeViewModel) {
+    var text by remember { mutableStateOf("") }
 
+    TextField(
+        value = text,
+        onValueChange = {
+            val userUid = FirebaseAuth.getInstance().uid as String
+            viewModel.getFavoriteMangaList(userUid)
+            text = it
+            onChange(it)
+        },
+        label = { Text("Search") },
+        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(16.dp)
+            ),
+    )
+}

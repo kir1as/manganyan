@@ -13,6 +13,7 @@ import app.manganyan.presentation.screens.home.HomeScreen
 import app.manganyan.presentation.screens.login_screen.SignInScreen
 import app.manganyan.presentation.screens.manga_detail.MangaDetailScreen
 import app.manganyan.presentation.screens.signup_screen.SignUpScreen
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun NavigationGraph(
@@ -29,7 +30,8 @@ fun NavigationGraph(
             SignUpScreen(navController = navController)
         }
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController
+            )
         }
         composable(route = Screens.MainScreen.route) {
             MainScreen()

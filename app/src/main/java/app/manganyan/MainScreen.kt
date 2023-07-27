@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import app.manganyan.presentation.navigation.BottomNavGraph
 import app.manganyan.presentation.navigation.BottomBarScreen
+import com.google.firebase.database.FirebaseDatabase
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,10 +29,11 @@ import app.manganyan.presentation.navigation.BottomBarScreen
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    val firebaseInstance = FirebaseDatabase.getInstance()
     Scaffold(
         bottomBar = { BottomBar(navController = navController) }
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(navController = navController, firebaseInstance = firebaseInstance)
     }
 }
 
@@ -70,7 +72,7 @@ fun RowScope.AddItem (
             Text(text = screen.title)
         },
         icon = {
-            Icon(imageVector = screen.icon, contentDescription = "Navigation Icon" )
+            Icon(imageVector = screen.icon, contentDescription = "Navigation Icon")
         },
         selected = currentDestination?.hierarchy?.any {
             it.route == screen.route
