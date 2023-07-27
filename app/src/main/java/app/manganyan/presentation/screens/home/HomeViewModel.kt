@@ -10,6 +10,7 @@ import app.manganyan.common.Resource
 import app.manganyan.domain.interactor.MangaGetFilterUseCase
 import app.manganyan.domain.interactor.MangaGetUseCase
 import app.manganyan.domain.model.MangaData
+import app.manganyan.presentation.screens.home.HomeState
 import app.manganyan.presentation.screens.search.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,10 +54,10 @@ class HomeViewModel @Inject constructor(
                     stateManga.value = HomeState(mangaList = it.data ?: emptyList())
                 }
                 is Resource.Loading -> {
-                    stateManga.value = SearchState(isLoading = true)
+                    stateManga.value = HomeState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    stateManga.value = SearchState(error = it.message ?: "An Unexpected Error")
+                    stateManga.value = HomeState(error = it.message ?: "An Unexpected Error")
                 }
             }
         }.launchIn(viewModelScope)
@@ -67,13 +68,13 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is Resource.Success -> {
                     it.data?.let { it1 -> logMangaList(it1) }
-                    stateManga.value = SearchState(mangaList = it.data ?: emptyList())
+                    stateManga.value = HomeState(mangaList = it.data ?: emptyList())
                 }
                 is Resource.Loading -> {
-                    stateManga.value = SearchState(isLoading = true)
+                    stateManga.value = HomeState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    stateManga.value = SearchState(error = it.message ?: "An Unexpected Error")
+                    stateManga.value = HomeState(error = it.message ?: "An Unexpected Error")
                 }
             }
         }.launchIn(viewModelScope)
