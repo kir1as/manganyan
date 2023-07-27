@@ -11,19 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.collect
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun FavoriteScreen(
-    userUid: String, // Callback added here
+     // Callback added here
     viewModel: FavoriteViewModel = viewModel()
 ) {
     // Load favorite manga ids when the screen is displayed
-    viewModel.loadFavoriteMangaIds(userUid)
+    viewModel.loadFavoriteMangaIds(FirebaseAuth.getInstance().uid!!)
 
 
-    // Observe the state to display the list of manga ids
     val state = viewModel.state.value
 
     Box(

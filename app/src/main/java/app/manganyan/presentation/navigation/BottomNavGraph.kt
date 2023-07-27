@@ -1,5 +1,6 @@
 package app.manganyan.presentation.navigation
 
+import FavoriteScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,7 +9,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import app.manganyan.MainScreen
 import app.manganyan.presentation.screens.comment.CommentScreen
-import app.manganyan.presentation.screens.favorites.FavoriteScreen
 import app.manganyan.presentation.screens.home.HomeScreen
 import app.manganyan.presentation.screens.manga_page.MangaPageScreen
 import app.manganyan.presentation.screens.profile.ProfileScreen
